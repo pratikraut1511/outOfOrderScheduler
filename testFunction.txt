@@ -1,0 +1,11 @@
+for (unsigned int i = 0; i < numOfInstructions; i++)
+    {
+         temp = dispatchIssueList[i];
+        //0 fu{2} src{16,-1} dst{4} IF{0,1} ID{1,1} IS{2,1} EX{3,5} WB{8,1}
+        cout << "Valid: " << temp.isValid << temp.tagVal << " " << "fu{"
+                << temp.operationType << "} " << "src{" << temp.src1_reg << ","
+                << temp.src2_reg << "} " << "dst{" << temp.dest_reg << "} "
+                << "IF{" << temp.fetchArrival << "," << temp.fetchTime
+                << "} ID{" << temp.decodeArrival << "," << temp.decodeTime
+                << "} " << endl;
+    }
