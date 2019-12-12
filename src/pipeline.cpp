@@ -29,7 +29,7 @@ struct StageRegComparator
 pipeline::pipeline(unsigned int scheduleSize, unsigned int fetchSize)
 {
     pFileHandler = NULL;
-    fakeRobSize = 1024;
+    fakeRobSize = ROB_SIZE;
     numOfInstructions = fetchSize;
     scheduleQueueCapacity = scheduleSize;
     dispatchQueueSize = fetchSize * 2;
@@ -38,6 +38,7 @@ pipeline::pipeline(unsigned int scheduleSize, unsigned int fetchSize)
     executionQueueCount = 0;
     renameMapTable = new renameMapTable_t[67];
     queueSpace = 0;
+
     for (unsigned int i = 0; i < 67; i++)
     {
         renameMapTable->isValid = false;
@@ -97,14 +98,15 @@ bool pipeline::isFakeRobEmpty()
 bool pipeline::Advance_cycle()
 {
     bool retval = false;
-    //increment global count variable
+    //increment global cycle variable
     cycle++;
-    // if (feof(pFileHandler) && !issueQueueCounter && !executionQueueSize && !dispatchQueue->size())
+
+    //stop condition
     if (feof(pFileHandler) && isFakeRobEmpty())
     {
         retval = true;
     }
-    //cout << "retVal ::" << retval << endl;
+
     return retval;
 }
 
@@ -113,56 +115,33 @@ void pipeline::swap(stageReg *val1, stageReg *val2)
     stageReg temp = { 0 };
     if (val1->isValid && val2->isValid)
     {
-        //if(val1->isValid && !)
-        temp.isValid = val1->isValid;
-        temp.tagVal = val1->tagVal;
-        temp.progCount = val1->progCount;
-        temp.dest_reg = val1->dest_reg;
-        temp.dest_ready = val1->dest_ready;
-        temp.src1_reg = val1->src1_reg;
-        temp.src1_ready = val1->src1_reg;
-        temp.src2_reg = val1->src2_reg;
-        temp.src2_ready = val1->src2_ready;
-        temp.operationType = val1->operationType;
-        temp.latency = val1->latency;
-        temp.duration = val1->duration;
-        temp.presentStage = val1->presentStage;
-        temp.fetchArrival = val1->fetchArrival;
-        temp.fetchTime = val1->fetchTime;
-        temp.decodeArrival = val1->decodeArrival;
-        temp.decodeTime = val1->decodeTime;
-        temp.issueArrival = val1->issueArrival;
-        temp.issueTime = val1->issueTime;
-        temp.executionArrival = val1->executionArrival;
-        temp.executionTime = val1->executionTime;
-        temp.writeBackArrival = val1->writeBackArrival;
-        temp.writeBackTime = val1->writeBackTime;
-
+        temp = *val1;
         *val1 = *val2;
+        *val2 = *val1;
 
-        val2->isValid = temp.isValid;
-        val2->tagVal = temp.tagVal;
-        val2->progCount = temp.progCount;
-        val2->dest_reg = temp.dest_reg;
-        val2->dest_ready = temp.dest_ready;
-        val2->src1_reg = temp.src1_reg;
-        val2->src1_ready = temp.src1_ready;
-        val2->src2_reg = temp.src2_reg;
-        val2->src2_ready = temp.src2_ready;
-        val2->operationType = temp.operationType;
-        val2->latency = temp.latency;
-        val2->duration = temp.duration;
-        val2->presentStage = temp.presentStage;
-        val2->fetchArrival = temp.fetchArrival;
-        val2->fetchTime = temp.fetchTime;
-        val2->decodeArrival = temp.decodeArrival;
-        val2->decodeTime = temp.decodeTime;
-        val2->issueArrival = temp.issueArrival;
-        val2->issueTime = temp.issueTime;
-        val2->executionArrival = temp.executionArrival;
-        val2->executionTime = temp.executionTime;
-        val2->writeBackArrival = temp.writeBackArrival;
-        val2->writeBackTime = temp.writeBackTime;
+//        val2->isValid = temp.isValid;
+//        val2->tagVal = temp.tagVal;
+//        val2->progCount = temp.progCount;
+//        val2->dest_reg = temp.dest_reg;
+//        val2->dest_ready = temp.dest_ready;
+//        val2->src1_reg = temp.src1_reg;
+//        val2->src1_ready = temp.src1_ready;
+//        val2->src2_reg = temp.src2_reg;
+//        val2->src2_ready = temp.src2_ready;
+//        val2->operationType = temp.operationType;
+//        val2->latency = temp.latency;
+//        val2->duration = temp.duration;
+//        val2->presentStage = temp.presentStage;
+//        val2->fetchArrival = temp.fetchArrival;
+//        val2->fetchTime = temp.fetchTime;
+//        val2->decodeArrival = temp.decodeArrival;
+//        val2->decodeTime = temp.decodeTime;
+//        val2->issueArrival = temp.issueArrival;
+//        val2->issueTime = temp.issueTime;
+//        val2->executionArrival = temp.executionArrival;
+//        val2->executionTime = temp.executionTime;
+//        val2->writeBackArrival = temp.writeBackArrival;
+//        val2->writeBackTime = temp.writeBackTime;
 
     }
 }
@@ -250,11 +229,13 @@ void pipeline::writeBack(stageReg *writeBackVal)
 #if DEBUG
     cout << "***writeBack ***  " << writeBackVal->dest_reg << endl;
 #endif
+    //update rename table
     for (unsigned int i = 0; i < 67; i++)
     {
         if (writeBackVal->dest_reg == renameMapTable[i].tagVal)
         {
             renameMapTable[i].isValid = false;
+            renameMapTable[i].tagVal = 0;
             break;
         }
     }
@@ -434,18 +415,21 @@ void pipeline::issueCycle()
     unsigned int num = 0;
 #if DEBUG
     cout << "*** issue stage " << cycle << "***" << endl;
+    cout << "issue sorted " << endl;
 #endif
     //scan issue queue for ready bits of src1 and src2
     //and create temp_list for ready instruction
     //change of stage
 
     issueQueueSort(issueQueue);
+
     for (unsigned int j = 0; j < scheduleQueueCapacity; j++)
     {
-        if (issueQueue[j].isValid)
+       // if (issueQueue[j].isValid)
         {
             temp = issueQueue[j];
 #if DEBUG
+
             cout << j << "  " << temp.tagVal << " " << "fu{"
             << temp.operationType << "} " << "src{" << temp.src1_reg
             << "," << temp.src2_reg << "} " << "dst{" << temp.dest_reg
@@ -494,11 +478,12 @@ void pipeline::issueCycle()
     }
 
     //sort the temp
+#if DEBUG1
+    cout << "issue " << endl;
     // stageRegSort(issueExecutionList);
     for (unsigned int i = 0; i < numOfInstructions; i++)
     {
         temp = issueExecutionList[i];
-#if DEBUG
         cout << i << "  " << temp.tagVal << " " << "fu{" << temp.operationType
         << "} " << "src{" << temp.src1_reg << "," << temp.src2_reg
         << "} " << "dst{" << temp.dest_reg << "} " << "IF{"
@@ -507,16 +492,17 @@ void pipeline::issueCycle()
         << temp.issueArrival << "  src1 ready :: " << temp.src1_ready
         << "  src2 ready :: " << temp.src2_ready << "} DURATION"
         << temp.duration << endl;
-
-#endif
         temp =
         {   0};
     }
-
-    //cout << "issue to execution list " << endl;
+#endif
+#if DEBUG
+    cout << "issue to execution list " << endl;
+#endif
     for (unsigned int i = 0; i < num; i++)
     {
         temp = issueExecutionList[i];
+        temp.presentStage = EX;
         if (temp.isValid)
         {
             issueExecutionList[i]=
@@ -657,14 +643,6 @@ void pipeline::decodeCycle()
             dispatchIssueList[i] =
             {   0};
             temp.issueArrival = cycle + 1;
-#if DEBUG1
-            cout << temp.tagVal << " " << "fu{" << temp.operationType << "} "
-            << "src{" << temp.src1_reg << "," << temp.src2_reg << "} "
-            << "dst{" << temp.dest_reg << "} " << "IF{"
-            << temp.fetchArrival << "," << temp.fetchTime << "} ID{"
-            << temp.decodeArrival << "," << temp.decodeTime << "} IS{"
-            << temp.issueArrival << endl;
-#endif
             for (unsigned int i = 0; i < scheduleQueueCapacity; i++)
             {
                 if (!issueQueue[i].isValid)

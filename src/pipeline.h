@@ -10,6 +10,8 @@
 
 #include "defination.h"
 
+#define ROB_SIZE 1024
+
 enum STAGE
 {
     IF = 0,
@@ -101,6 +103,7 @@ public:
     void enqueue(queue *updateQueue, stageReg temp);
     stageReg dequeue(queue *updateQueue);
     stageReg front(queue *updateQueue);
+
     FILE *pFileHandler;                 // File handler for input trace file
     //L1 Cache Params
     BranchBuffer *cacheL1;
@@ -108,6 +111,7 @@ public:
     //L2 cache Params
     BranchBuffer *cacheL2;
     bool isL2Present;
+
 private:
     unsigned int numOfInstructions;
     unsigned int scheduleQueueCapacity;

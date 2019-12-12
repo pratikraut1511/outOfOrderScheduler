@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     if (argc != 9) // Checks if correct number of inputs have been given.
     {
         // Throw error and exit if wrong
-        cerr << "Error: Given inputs:" << argc - 1 << endl;
+        cout << "Error: Given inputs:" << argc - 1 << endl;
         return 1;
     }
 
@@ -59,25 +59,33 @@ int main(int argc, char *argv[])
         sim->fetchCycle();
     }
     while (!sim->Advance_cycle());
+
+    //L1 print contents
     if(sim->isL1Present)
     {
         cout << "L1 CACHE CONTENTS" << endl;
         sim->cacheL1->printBufferContet();
         cout << endl;
     }
+
+    //L2 print contents
     if(sim->isL2Present)
     {
         cout << "L2 CACHE CONTENTS" << endl;
         sim->cacheL2->printBufferContet();
         cout << endl;
     }
+
+    //output print
     sim->printFunc();
-    // destory pipeline pointer
+
+    //delete cache pointer
     if(sim->isL1Present)
         sim->cacheL1->~BranchBuffer();
     if(sim->isL2Present)
         sim->cacheL2->~BranchBuffer();
+    // destory pipeline pointer
     sim->~pipeline();
-    //delete sim;
+
     return 0;
 }

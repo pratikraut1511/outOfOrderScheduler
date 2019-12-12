@@ -47,10 +47,6 @@ private:
     //2d dynamic array
     buffer_info **buffer_memory_details;
 
-    //Friend Class
-    friend class Bimodal;
-    friend class Gshare;
-    friend class Hybrid;
 
     //hit/miss related variable
     unsigned int totalPredictionBuffer;
@@ -58,7 +54,7 @@ private:
     unsigned int miss;
     unsigned int missTaken;
     float missRate;
-    //Iternal Variable
+    //internal Variable
     unsigned int tagValReq;
     unsigned int IndexValReq;
     unsigned int blockValReq;

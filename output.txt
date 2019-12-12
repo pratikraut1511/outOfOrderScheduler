@@ -1,5 +1,63 @@
-32
-2048
-8
-cache L1
 0 fu{0} src{29,14} dst{-1} IF{0,1} ID{1,1} IS{2,1} EX{3,1} WB{4,1}
+1 fu{2} src{29,-1} dst{14} IF{0,1} ID{1,1} IS{2,1} EX{3,20} WB{23,1}
+2 fu{2} src{29,-1} dst{15} IF{0,1} ID{1,1} IS{2,1} EX{3,20} WB{23,1}
+3 fu{2} src{30,-1} dst{19} IF{0,1} ID{1,1} IS{2,1} EX{3,20} WB{23,1}
+4 fu{2} src{14,-1} dst{14} IF{1,1} ID{2,1} IS{3,20} EX{23,20} WB{43,1}
+5 fu{2} src{15,-1} dst{16} IF{1,1} ID{2,1} IS{3,20} EX{23,5} WB{28,1}
+6 fu{0} src{29,14} dst{-1} IF{1,1} ID{2,1} IS{3,40} EX{43,1} WB{44,1}
+7 fu{0} src{19,-1} dst{3} IF{1,1} ID{2,1} IS{3,20} EX{23,1} WB{24,1}
+8 fu{1} src{0,0} dst{23} IF{2,1} ID{3,1} IS{4,1} EX{5,2} WB{7,1}
+9 fu{1} src{0,0} dst{18} IF{2,1} ID{3,1} IS{4,1} EX{5,2} WB{7,1}
+10 fu{0} src{3,0} dst{-1} IF{2,1} ID{3,1} IS{4,20} EX{24,1} WB{25,1}
+11 fu{0} src{0,-1} dst{2} IF{2,1} ID{3,1} IS{4,1} EX{5,1} WB{6,1}
+12 fu{0} src{3,2} dst{-1} IF{3,1} ID{4,1} IS{5,19} EX{24,1} WB{25,1}
+13 fu{0} src{19,-1} dst{3} IF{3,1} ID{4,1} IS{5,18} EX{23,1} WB{24,1}
+14 fu{0} src{3,-1} dst{2} IF{3,1} ID{4,1} IS{5,19} EX{24,1} WB{25,1}
+15 fu{0} src{2,0} dst{-1} IF{3,1} ID{4,1} IS{5,20} EX{25,1} WB{26,1}
+16 fu{0} src{22,-1} dst{2} IF{4,1} ID{5,1} IS{6,1} EX{7,1} WB{8,1}
+17 fu{0} src{2,3} dst{2} IF{4,1} ID{5,1} IS{6,18} EX{24,1} WB{25,1}
+18 fu{0} src{2,0} dst{-1} IF{4,1} ID{5,1} IS{6,19} EX{25,1} WB{26,1}
+19 fu{0} src{21,0} dst{-1} IF{4,1} ID{5,1} IS{6,1} EX{7,1} WB{8,1}
+20 fu{0} src{19,-1} dst{2} IF{5,1} ID{6,1} IS{7,18} EX{25,1} WB{26,1}
+21 fu{0} src{19,-1} dst{3} IF{5,1} ID{6,1} IS{7,18} EX{25,1} WB{26,1}
+22 fu{0} src{2,0} dst{-1} IF{5,1} ID{6,1} IS{7,19} EX{26,1} WB{27,1}
+23 fu{1} src{0,21} dst{17} IF{5,1} ID{6,1} IS{7,1} EX{8,2} WB{10,1}
+24 fu{0} src{21,-1} dst{15} IF{6,1} ID{7,1} IS{8,1} EX{9,1} WB{10,1}
+25 fu{0} src{29,15} dst{-1} IF{6,1} ID{7,1} IS{8,2} EX{10,1} WB{11,1}
+26 fu{0} src{19,-1} dst{19} IF{6,1} ID{7,2} IS{9,17} EX{26,1} WB{27,1}
+27 fu{1} src{0,3} dst{4} IF{6,1} ID{7,3} IS{10,16} EX{26,2} WB{28,1}
+28 fu{0} src{3,-1} dst{2} IF{7,1} ID{8,15} IS{23,3} EX{26,1} WB{27,1}
+29 fu{0} src{2,-1} dst{2} IF{7,1} ID{8,15} IS{23,4} EX{27,1} WB{28,1}
+30 fu{0} src{0,-1} dst{14} IF{7,1} ID{8,15} IS{23,4} EX{27,1} WB{28,1}
+31 fu{0} src{2,14} dst{-1} IF{7,1} ID{8,15} IS{23,5} EX{28,1} WB{29,1}
+32 fu{0} src{3,-1} dst{2} IF{8,1} ID{9,15} IS{24,3} EX{27,1} WB{28,1}
+33 fu{0} src{2,-1} dst{2} IF{8,1} ID{9,15} IS{24,4} EX{28,1} WB{29,1}
+34 fu{0} src{2,-1} dst{3} IF{9,1} ID{10,14} IS{24,5} EX{29,1} WB{30,1}
+35 fu{0} src{3,-1} dst{2} IF{10,1} ID{11,13} IS{24,6} EX{30,1} WB{31,1}
+36 fu{0} src{2,0} dst{-1} IF{23,1} ID{24,1} IS{25,6} EX{31,1} WB{32,1}
+37 fu{0} src{3,-1} dst{2} IF{23,1} ID{24,1} IS{25,5} EX{30,1} WB{31,1}
+38 fu{0} src{-1,-1} dst{1} IF{23,1} ID{24,1} IS{25,2} EX{27,1} WB{28,1}
+39 fu{1} src{1,2} dst{1} IF{23,1} ID{24,1} IS{25,6} EX{31,2} WB{33,1}
+40 fu{2} src{1,-1} dst{2} IF{24,1} ID{25,1} IS{26,7} EX{33,5} WB{38,1}
+41 fu{0} src{2,-1} dst{-1} IF{24,1} ID{25,1} IS{26,12} EX{38,1} WB{39,1}
+42 fu{2} src{17,-1} dst{2} IF{24,1} ID{25,1} IS{26,2} EX{28,20} WB{48,1}
+L1 CACHE CONTENTS
+a. number of accesses :7
+b. number of misses :5
+set  0 : 0    0    0    0    0    0    0    0    
+set  1 : 0    0    0    0    0    0    0    0    
+set  2 : df7c    0    0    0    0    0    0    0    
+set  3 : 0    0    0    0    0    0    0    0    
+set  4 : 0    0    0    0    0    0    0    0    
+set  5 : 400341    dfcf    423aeb    0    0    0    0    0    
+set  6 : 7b034d    0    0    0    0    0    0    0    
+set  7 : 0    0    0    0    0    0    0    0    
+
+CONFIGURATION
+ superscalar bandwidth (N) = 4
+ dispatch queue size (2*N) = 8
+ schedule queue size (S)   = 16
+RESULTS
+ number of instructions = 43
+ number of cycles       = 49
+ IPC                    = 0.878
